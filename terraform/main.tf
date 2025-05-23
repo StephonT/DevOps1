@@ -19,7 +19,7 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_security_group" "sg_ssh" {
-  name        = "allow_ssh_from_github"
+  name        = "allow_ssh_from_github_${timestamp()}"
   description = "Allow SSH from anywhere"
   vpc_id      = data.aws_vpc.default.id
 
