@@ -13,26 +13,16 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_instance" "web" {
-  ami                         = "ami-03a13a09a711d3871" # RHEL 10 Image
-  instance_type               = "t2.micro"
-  key_name                    = aws_key_pair.my_key.key_name
-  associate_public_ip_address = true # Allowing accessibility from Github
-
-  vpc_security_group_ids = [aws_security_group.sg_ssh.id]
-
-  tags = {
-    Name = "Terrafom-Ansible-RHEL10"
-  }
-
-}
-
-resource "aws_key_pair" "my_key" {
-  key_name   = "aws_keys_steph_${timestamp()}}" # Timestamp to ensure unique key name
-  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJj0uEfUBSUo2Xzq1E4EpMdiewB7dOQ9v9FcGd7YPmOs streadwell@ansible.2resolute.com"
+# Pull in the default VPC for your account/region
+data "aws_vpc" "default" {
+  default = true
 }
 
 resource "aws_security_group" "sg_ssh" {
+  name        = "allow_ssh_from_github"
+  description = "Allow SSH from anywhere"
+  vpc_id      = data.aws_vpc.default.id
+
   ingress {
     cidr_blocks = ["0.0.0.0/0"]
     from_port   = 22
@@ -47,3 +37,21 @@ resource "aws_security_group" "sg_ssh" {
     to_port     = 0
   }
 }
+
+resource "aws_key_pair" "my_key" {
+  key_name   = "aws_keys_steph_${timestamp()}"  # ✅ Fixed missing brace
+  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJj0uEfUBSUo2Xzq1E4EpMdiewB7dOQ9v9FcGd7YPmOs streadwell@ansible.2resolute.com"
+}
+
+resource "aws_instance" "web" {
+  ami                         = "ami-03a13a09a711d3871"
+  instance_type               = "t2.micro"
+  key_name                    = aws_key_pair.my_key.key_name
+  associate_public_ip_address = true
+  vpc_security_group_ids      = [aws_security_group.sg_ssh.id]
+
+  tags = {
+    Name = "Terraform-Ansible-RHEL10"
+  }
+}
+
