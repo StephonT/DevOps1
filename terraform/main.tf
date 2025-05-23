@@ -43,7 +43,7 @@ resource "aws_key_pair" "my_key" {
 }
 
 resource "aws_instance" "web" {
-  ami                         = "ami-0c55b159cbfafe1f0" # Amazon Linux 2
+  ami                         = "ami-0953476d60561c955" # Amazon Linux 2
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.my_key.key_name
   associate_public_ip_address = true
