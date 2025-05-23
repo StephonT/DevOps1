@@ -34,7 +34,6 @@ jobs:
 
       - name: Install ansible
         run: |
-          sudo apt install -y epel-release
           sudo apt install -y ansible-core 
 
       - name: Run ansible playbook
