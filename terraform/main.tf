@@ -39,7 +39,7 @@ resource "aws_security_group" "allow_ssh" {
 
 resource "aws_key_pair" "my_key" {
   key_name   = "aws_keys_${timestamp()}"
-  public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJj0uEfUBSUo2Xzq1E4EpMdiewB7dOQ9v9FcGd7YPmOs streadwell@ansible.2resolute.com"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCSaB83jyDuIISieXwje4wGa1kzJzmi05phEwECX2ovcnxi3qNkqa+2QYhsXvrbNxzD0+96o7egpy6ecpwcYfPGdszeh23QlmAZMck8gK0fhUC1i6FR2SVJP9j6/MJaEg9xYvQ1OErsUKUbZHutTLNODnq/HjOshIVdgx7USHIve/HQl/rztMGosypNtQIH32GfkkmHQcu1WBLFcwCH63XRzS/0ieIUoH9ZCTxd8uJ+sbaYd22HWqe4vaUzYCjrIn7W4rZIC+hKaQimC+R8fRs0VF9OMuE824wC9pXd0peoo5Eij+2Jb+D2VsPIywy2DVl+D+u4Jserovqb+63ryYtrTGj4s4J0x3Xt2aPjlUSN9QGDCKJeK6VXrrWZuxMWy+MCaQByBATsmrwdJ2BceHtm3EbPHk/KxcYwg497lEByE2xtA2vqKHxLw4bEnh9PJ/At8Wf7jMA3LXIiAcCom1ml2Ats/EQpSUS/VLI/Iwoo+vnq07CfiqQy+Sd/AwF9A2E= streadwell@desiree10.niec.tc.faa.gov"
 }
 
 resource "aws_instance" "web" {
