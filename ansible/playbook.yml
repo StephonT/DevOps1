@@ -3,10 +3,9 @@
   hosts: all
   become: true
   tasks:
-    - name: Enable EPEL repository and install Nginx
+    - name: Install Nginx
       ansible.builtin.dnf:
         name: 
-          - epel-release
           - nginx
         state: present
 
