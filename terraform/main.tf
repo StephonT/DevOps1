@@ -5,7 +5,6 @@ terraform {
       version = "~> 4.0"
     }
   }
-
   required_version = ">= 1.12.1"
 }
 
@@ -13,45 +12,48 @@ provider "aws" {
   region = "us-east-1"
 }
 
-# Pull in the default VPC for your account/region
 data "aws_vpc" "default" {
   default = true
 }
 
-resource "aws_security_group" "sg_ssh" {
-  name        = "allow_ssh_from_github_${timestamp()}"
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh_${timestamp()}"
   description = "Allow SSH from anywhere"
   vpc_id      = data.aws_vpc.default.id
 
   ingress {
-    cidr_blocks = ["0.0.0.0/0"]
+    description = "SSH access"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    cidr_blocks = ["0.0.0.0/0"]
-    protocol    = "-1"
     from_port   = 0
     to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
 resource "aws_key_pair" "my_key" {
-  key_name   = "aws_keys_steph_${timestamp()}"  # ✅ Fixed missing brace
+  key_name   = "aws_keys_${timestamp()}"
   public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJj0uEfUBSUo2Xzq1E4EpMdiewB7dOQ9v9FcGd7YPmOs streadwell@ansible.2resolute.com"
 }
 
 resource "aws_instance" "web" {
-  ami                         = "ami-03a13a09a711d3871"
+  ami                         = "ami-0c55b159cbfafe1f0" # Amazon Linux 2
   instance_type               = "t2.micro"
   key_name                    = aws_key_pair.my_key.key_name
   associate_public_ip_address = true
-  vpc_security_group_ids      = [aws_security_group.sg_ssh.id]
+  vpc_security_group_ids      = [aws_security_group.allow_ssh.id]
 
   tags = {
-    Name = "Terraform-Ansible-RHEL10"
+    Name = "Terraform-Ansible-AmazonLinux"
   }
 }
 
+output "public_ip" {
+  value = aws_instance.web.public_ip
+}
