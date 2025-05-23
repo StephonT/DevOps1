@@ -24,7 +24,7 @@ jobs:
         run: |
           terraform init
           terraform apply -auto-approve
-          terraform output -raw public_ip > ../../ansible/inventory
+          terraform output -raw public_ip > ../ansible/inventory
 
       - name: Setup SSH Key
         run: |
