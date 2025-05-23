@@ -34,8 +34,8 @@ jobs:
 
       - name: Install ansible
         run: |
-          sudo dnf install -y epel-release
-          sudo dnf install -y ansible-core 
+          sudo apt install -y epel-release
+          sudo apt install -y ansible-core 
 
       - name: Run ansible playbook
         working-directory: ansible
