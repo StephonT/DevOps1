@@ -26,6 +26,6 @@ resource "aws_instance" "web" {
 }
 
 resource "aws_key_pair" "my_key" {
-  key_name   = "aws_keys_steph"
+  key_name   = "aws_keys_steph_${timestamp()}}" # Timestamp to ensure unique key name
   public_key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJj0uEfUBSUo2Xzq1E4EpMdiewB7dOQ9v9FcGd7YPmOs streadwell@ansible.2resolute.com"
 }
