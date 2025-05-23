@@ -14,9 +14,11 @@ provider "aws" {
 }
 
 resource "aws_instance" "web" {
-  ami                    = "ami-03a13a09a711d3871" # RHEL 10 Image
-  instance_type          = "t2.micro"
-  key_name               = aws_key_pair.my_key.key_name
+  ami                         = "ami-03a13a09a711d3871" # RHEL 10 Image
+  instance_type               = "t2.micro"
+  key_name                    = aws_key_pair.my_key.key_name
+  associate_public_ip_address = true # Allowing accessibility from Github
+
   vpc_security_group_ids = [aws_security_group.sg_ssh.id]
 
   tags = {
@@ -32,14 +34,14 @@ resource "aws_key_pair" "my_key" {
 
 resource "aws_security_group" "sg_ssh" {
   ingress {
-    cidr_blocks = ["0.0.0.0/16"]
+    cidr_blocks = ["0.0.0.0/0"]
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
   }
 
   egress {
-    cidr_blocks = ["0.0.0.0/16"]
+    cidr_blocks = ["0.0.0.0/0"]
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
