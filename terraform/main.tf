@@ -16,7 +16,7 @@ provider "aws" {
 resource "aws_instance" "web" {
   ami           = "ami-03a13a09a711d3871" # RHEL 10 Image
   instance_type = "t2.micro"
-  key_name      = aws_key_pair.my_key.aws_keys
+  key_name      = aws_key_pair.my_key.key_name
 
 
   tags = {
