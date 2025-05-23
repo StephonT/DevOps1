@@ -1,0 +1,17 @@
+---
+- name: Configure Web Server
+  hosts: all
+  become: true
+  tasks:
+    - name: Enable EPEL repository and install Nginx
+      ansible.builtin.dnf:
+        name: 
+          - epel-release
+          - nginx
+        state: present
+
+    - name: Start and enable Nginx
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: true

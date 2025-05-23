@@ -1,0 +1,42 @@
+name: Deploy Infrastructure and Configure with ansible
+
+on:
+  push:
+    branches:
+      - main
+  
+jobs:
+  deploy:
+    run-on: rhel-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+    
+      - name: Terraform Init and apply
+        working-directory: terraform
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          terraform init
+          terraform apply -auto-approve
+          terraform output -raw public_ip > ../../ansible/inventory
+
+      - name: Setup SSH Key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/my-key.pem
+          chmod 600 ~/.ssh/my-key.pem
+
+      - name: Install ansible
+        run: |
+          sudo dnf install -y epel-release
+          sudo dnf install -y ansible-core 
+
+      - name: Run ansible playbook
+        working-directory: ansible
+        run: |
+          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory -u ec2-user --private-key ~/.ssh/my-key.pem playbook.yml
