@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deployer-key.pem
-          chmod 600 ~/.ssh/deployer.pem
+          chmod 600 ~/.ssh/deployer-key.pem
 
       - name: Install ansible
         run: |
