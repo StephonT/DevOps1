@@ -3,15 +3,15 @@
   hosts: all
   become: true
   tasks:
-    - name: Install Nginx
+    - name: Install httpd
       ansible.builtin.yum:
         name: 
-          - nginx
+          - httpd
         state: present
 
     - name: Start and enable Nginx
       ansible.builtin.service:
-        name: nginx
+        name: httpd
         state: started
         enabled: true
 
