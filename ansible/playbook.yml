@@ -16,6 +16,6 @@
         enabled: true
 
     - name: Create web page
-      ansible.builtin.content:
+      ansible.builtin.copy:
         content: "DevOps Journey is coming along!"
         dest: /var/www/html/index.html 
