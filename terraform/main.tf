@@ -43,7 +43,7 @@ resource "aws_instance" "web" {
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.my_key.key_name
   associate_public_ip_address = true
-
+  vpc_security_group_ids = [ aws_security_group.allow_ports.id ]
 
   tags = {
     Name = "Terraform-Ansible-AmazonLinux"
