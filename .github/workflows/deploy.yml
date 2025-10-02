@@ -29,7 +29,7 @@ jobs:
       - name: Setup SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/my-key.pem
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deployer-key.pem
           chmod 600 ~/.ssh/my-key.pem
 
       - name: Install ansible
