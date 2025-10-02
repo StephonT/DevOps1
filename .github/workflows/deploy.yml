@@ -40,3 +40,5 @@ jobs:
         working-directory: ansible
         run: |
           ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory -u ec2-user --private-key ~/.ssh/my-key.pem playbook.yml
+
+          
