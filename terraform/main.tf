@@ -33,6 +33,12 @@ resource "aws_vpc_security_group_ingress_rule" "allow_http" {
   to_port           = var.aws_http_port
 }
 
+resource "aws_vpc_security_group_egress_rule" "all_out" {
+  security_group_id = aws_security_group.allow_ports.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
+}
+
 resource "aws_key_pair" "my_key" {
   key_name   = "deployer-key"
   public_key = var.public_key
