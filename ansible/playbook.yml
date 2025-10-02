@@ -14,3 +14,8 @@
         name: nginx
         state: started
         enabled: true
+
+    - name: Create web page
+      ansible.builtin.content:
+        content: "DevOps Journey is coming along!"
+        dest: /var/www/html/index.html 
