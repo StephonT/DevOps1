@@ -40,12 +40,16 @@ Now I can put this in my bag of experience **and** actually use it in production
 ## 🗂️ Project Structure
 ```bash
 .
+├── .github/
+│   ├── workflows/
+|      ├── deploy.yml
 ├── terraform/              # Terraform configuration files
 │   ├── main.tf
 │   ├── variables.tf
 │   └── outputs.tf
 ├── ansible/                # Ansible playbooks
-│   ├── provision-configure.yml
-│   └── inventory.ini
+│   ├── site.yml
+|   ├── ansible.cfg
+│   └── inventory
 └── README.md               # You're reading this 😎
  
