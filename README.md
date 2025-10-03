@@ -52,6 +52,7 @@ Now I can put this in my bag of experience **and** actually use it in production
 |   ├── ansible.cfg
 │   └── inventory
 └── README.md               # You're reading this 😎
+```
  
 # 🧰 Ansible (first things first)
 
@@ -76,7 +77,7 @@ ansible/
 └── roles/ # reusable roles (apache/, users/, etc.)
 
 ansible.cfg
-
+```bash
 ---
 
 ## `ansible.cfg` (opinionated but beginner-friendly)
@@ -90,8 +91,9 @@ collections_paths = collections
 
 # Optional: if you add roles later
 # roles_path = ./roles
+```
 
-Why these choices?
+# Why these choices?
 
 host_key_checking = False stops first-contact prompts (nice for ephemeral EC2). Turn it back on in real environments.
 
