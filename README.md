@@ -93,7 +93,7 @@ collections_paths = collections
 # roles_path = ./roles
 ```
 
-# Why these choices?
+# 🤷🏽‍♂️Why these choices?
 
 host_key_checking = False stops first-contact prompts (nice for ephemeral EC2). Turn it back on in real environments.
 
