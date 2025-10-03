@@ -91,5 +91,17 @@ collections_paths = collections
 # Optional: if you add roles later
 # roles_path = ./roles
 
+Why these choices?
+
+host_key_checking = False stops first-contact prompts (nice for ephemeral EC2). Turn it back on in real environments.
+
+interpreter_python = auto_silent helps Ansible find Python on various distros.
+
+inventory = Path of the inventory file in your current project directory
+
+roles_path = Path of the roles directory in your current project directory
+
+collections_paths = Path of the roles directory in your current project directory
+
 
 
