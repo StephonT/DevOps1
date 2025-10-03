@@ -53,3 +53,43 @@ Now I can put this in my bag of experience **and** actually use it in production
 │   └── inventory
 └── README.md               # You're reading this 😎
  
+# 🧰 Ansible (first things first)
+
+This project is Terraform → EC2 → Ansible. Since Ansible is where “it actually works (or breaks)”, we’ll start here.
+
+ansible/
+├── ansible.cfg
+├── inventory # static example (INI or YAML)
+└── site.yml # main playbook
+
+## Why this structure?
+
+- **`ansible.cfg`** → keeps CLI commands short and consistent (inventory path, SSH key, roles path, etc.).
+- **`inventory`** → defines “who” to manage (from Terraform output or a static host/IP).
+- **`site.yml`** → defines “what” to do (install & start `httpd`, plus any bootstrap you need).
+
+As this grows, you can add:
+
+ansible/
+├── group_vars/ # vars shared by group (e.g., web)
+├── host_vars/ # vars for single host
+└── roles/ # reusable roles (apache/, users/, etc.)
+
+ansible.cfg
+
+---
+
+## `ansible.cfg` (opinionated but beginner-friendly)
+
+[defaults]
+host_key_checking = False     # ok for labs! Enable in production
+retry_files_enabled = False
+inventory = inventory
+roles_path = roles
+collections_paths = collections
+
+# Optional: if you add roles later
+# roles_path = ./roles
+
+
+
