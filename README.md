@@ -103,5 +103,18 @@ roles_path = Path of the roles directory in your current project directory
 
 collections_paths = Path of the roles directory in your current project directory
 
+inventory
+Leave your inventory file empty.... Why Steph?
+Normally, Ansible needs to know which hosts to manage (EC2 public IPs, hostnames, etc.), and you’d list those in the inventory file like this:
+
+[web]
+ec2-1-2-3-4.compute-1.amazonaws.com ansible_user=ec2-user
+
+But in this project, the EC2 instance doesn't exist until Terraform builds it. That means you can't hardcode its IP/DNS in advance. Later in the project, you are going to have Terraform output the instance's public IP once it's created. Then you are going to plug that IP into Ansible when you run the playbook.
+
+If you know anything about AWS though, when you stop an EC2 instance and start it back up, the public IP address changes. So keep that in mind! You'll have to change the ip address in your inventory file each time. OR, you can create an Elastic IP, which is like you leasing a static connection from AWS so you'll always have the same public ip address. Keyword though, "leasing". You are going to have to pay for that Elastic IP! Yikes! This is a simple project though so you won't need to lease anything. There are other ways to generate an inventory file using terraform collections, but I'm not doing it in this project. Ok, im done ranting! Moving along now...
+
+site.yml
+
 
 
