@@ -118,8 +118,6 @@ If you know anything about AWS though, when you stop an EC2 instance and start i
 
 # site.yml
 
-yaml
-
 ---
 
 - name: Configure Web Server
