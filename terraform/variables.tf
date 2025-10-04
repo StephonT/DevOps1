@@ -1,7 +1,7 @@
 variable "public_key" {
   type        = string
   description = "User public key"
-  default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ7FUrMITHRyJAE26e2+IYU+RQWUjNIPtu8eMWcDJxH6 streadwell@terraform.tworesolute.com"
+  default     = "~/.ssh/id_ed25519.pub"
 }
 
 variable "instance_type" {
