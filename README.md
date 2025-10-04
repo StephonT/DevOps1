@@ -76,7 +76,7 @@ ansible/
 ├── host_vars/ # vars for single host
 └── roles/ # reusable roles (apache/, users/, etc.)
 
-ansible.cfg
+# ansible.cfg
 ```bash
 ---
 
@@ -116,7 +116,7 @@ But in this project, the EC2 instance doesn't exist until Terraform builds it. T
 
 If you know anything about AWS though, when you stop an EC2 instance and start it back up, the public IP address changes. So keep that in mind! You'll have to change the ip address in your inventory file each time. OR, you can create an Elastic IP, which is like you leasing a static connection from AWS so you'll always have the same public ip address. Keyword though, "leasing". You are going to have to pay for that Elastic IP! Yikes! This is a simple project though so you won't need to lease anything. There are other ways to generate an inventory file using terraform collections, but I'm not doing it in this project. Ok, im done ranting! Moving along now...
 
-site.yml
+# site.yml
 
 yaml
 
