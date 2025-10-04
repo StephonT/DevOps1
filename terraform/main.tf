@@ -41,7 +41,7 @@ resource "aws_vpc_security_group_egress_rule" "all_out" {
 
 resource "aws_key_pair" "my_key" {
   key_name   = "deployer-key"
-  public_key = file(var.public_key)
+  public_key = var.public_key
 }
 
 resource "aws_instance" "web" {
@@ -49,7 +49,7 @@ resource "aws_instance" "web" {
   instance_type               = var.instance_type
   key_name                    = aws_key_pair.my_key.key_name
   associate_public_ip_address = true
-  vpc_security_group_ids = [ aws_security_group.allow_ports.id ]
+  vpc_security_group_ids      = [aws_security_group.allow_ports.id]
 
   tags = {
     Name = "Terraform-Ansible-AmazonLinux"
