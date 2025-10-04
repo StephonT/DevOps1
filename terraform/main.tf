@@ -41,7 +41,7 @@ resource "aws_vpc_security_group_egress_rule" "all_out" {
 
 resource "aws_key_pair" "my_key" {
   key_name   = "deployer-key"
-  public_key = var.public_key
+  public_key = file(var.public_key)
 }
 
 resource "aws_instance" "web" {
