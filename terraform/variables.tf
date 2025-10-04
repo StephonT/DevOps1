@@ -1,7 +1,8 @@
 variable "public_key" {
   type        = string
   description = "User public key"
-  default     = "~/.ssh/id_ed25519.pub"
+  default     = "../keys/aws_keys.pub"
+  sensitive = true
 }
 
 variable "instance_type" {
