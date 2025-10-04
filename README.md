@@ -118,8 +118,7 @@ If you know anything about AWS though, when you stop an EC2 instance and start i
 
 # site.yml
 
----
-
+```bash
 - name: Configure Web Server
   hosts: all
   become: true
@@ -140,4 +139,4 @@ If you know anything about AWS though, when you stop an EC2 instance and start i
       ansible.builtin.copy:
         content: "DevOps Journey is coming along!"
         dest: /var/www/html/index.html 
-
+```
