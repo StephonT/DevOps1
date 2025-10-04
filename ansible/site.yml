@@ -1,0 +1,33 @@
+---
+- name: Configure Web Server
+  hosts: all
+  become: true
+  tasks:
+    - name: Install httpd
+      ansible.builtin.yum:
+        name: 
+          - httpd
+        state: present
+
+    - name: Start and enable Nginx
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create web page
+      ansible.builtin.copy:
+        content: "DevOps Journey is coming along!"
+        dest: /var/www/html/index.html 
+
+    - name: Add Content to Message of the Day File
+      ansible.builtin.lineinfile:
+        path: /etc/motd
+        line: |
+          ********************************************
+          * Hello! Welcome to {{ ansible_hostname }}.  *
+          * Great job on completing this project.    *
+          * You are slowly but surely becoming a     *
+          * DevOps engineer!                         *
+          ********************************************
+         
