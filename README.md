@@ -129,7 +129,7 @@ If you know anything about AWS though, when you stop an EC2 instance and start i
           - httpd
         state: present
 
-    - name: Start and enable Nginx
+    - name: Start and enable Apache service
       ansible.builtin.service:
         name: httpd
         state: started
@@ -139,4 +139,16 @@ If you know anything about AWS though, when you stop an EC2 instance and start i
       ansible.builtin.copy:
         content: "DevOps Journey is coming along!"
         dest: /var/www/html/index.html 
+
+    - name: Add content to Message of the day file
+      ansible.builtin.lineinfile:
+        path: /etc/motd
+        line: |
+          ********************************************
+          * Hello! Welcome to {{ ansible_hostname }}.*
+          * Great job on completing this project.    *
+          * You are slowly but surely becoming a     *
+          * DevOps engineer!                         *
+          ********************************************
 ```
+This ansible file installs httpd, starts and enables the httpd service, creates an html file with a fun message, and finally, writes to the motd file so when you log into the ec2 instance, you'll be greeted with a success message.
