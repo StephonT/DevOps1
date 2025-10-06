@@ -1,14 +1,11 @@
 # 🚀 Terraform + Ansible: AWS EC2 Adventure
 
-In this project, I am simply using **Terraform** to build an AWS EC2 instance and then managing it with **Ansible**.  
+In this project, I am simply using **Terraform** to build an AWS EC2 instance and then dressing it up with **Ansible**.  
 
 The main reason for this project was to learn how to connect to an EC2 machine with Ansible and install an `httpd` server.  
 
 Sounds simple, right?  
 I thought the same... until I ran into all sorts of problems. 😅  
-
-<insert image / meme here for extra fun>
-
 ---
 
 ## 💡 Why I Did This
