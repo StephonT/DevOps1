@@ -149,3 +149,17 @@ If you know anything about AWS though, when you stop an EC2 instance and start i
           ********************************************
 ```
 This ansible file installs httpd, starts and enables the httpd service, creates an html file with a fun message, and finally, writes to the motd file so when you log into the ec2 instance, you'll be greeted with a success message.
+
+# ☁️Terraform Setup — Building the Foundation
+Now that our Ansible setup is ready, let’s move on to the Terraform side — the part that actually builds the EC2 instance in AWS.
+
+Before Terraform can talk to AWS, we need two things:
+
+The AWS CLI (so we can authenticate and test credentials).
+
+The Terraform binary (to build infrastructure as code).
+
+Let’s go step by step 👇
+
+# 🧩 Step 1 — Install the AWS CLI
+Terraform needs AWS credentials, and the easiest, most secure way to handle them is through the AWS CLI. I am using linux, so I googled "install awscli on linux" and came across this documentation >> [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) → For installing AWS CLI.
