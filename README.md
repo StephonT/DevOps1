@@ -163,3 +163,18 @@ Let’s go step by step 👇
 
 # 🧩 Step 1 — Install the AWS CLI
 Terraform needs AWS credentials, and the easiest, most secure way to handle them is through the AWS CLI. I am using linux, so I googled "install awscli on linux" and came across this documentation >> [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+# 🔐 Step 2 — Configure Your AWS Credentials Securely
+
+Instead of hardcoding credentials into Terraform files like I did at first 😬, store them safely using the AWS CLI. Run the following command:
+```bash
+aws configure
+```
+You'll be prompted for four values
+
+```bash
+AWS Access Key ID [None]: <Your Access Key>
+AWS Secret Access Key [None]: <Your Secret Key>
+Default region name [None]: us-east-1
+Default output format [None]: json
+```
