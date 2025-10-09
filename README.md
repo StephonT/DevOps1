@@ -1,6 +1,6 @@
 # 🚀 Terraform + Ansible: AWS EC2 Adventure
 
-In this project, I am simply using **Terraform** to build an AWS EC2 instance and then dressing it up with **Ansible**.  
+In this project, I am simply using **Terraform** to build an AWS EC2 instance and then dressing it up with **Ansible** all while running this through a **CI/CD** pipeline using **GitHub** actions.  
 
 The main reason for this project was to learn how to connect to an EC2 machine with Ansible and install an `httpd` server.  
 
@@ -202,3 +202,4 @@ sudo yum install -y yum-utils
 sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 sudo yum -y install terraform
 ```
+
