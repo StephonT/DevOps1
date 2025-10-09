@@ -286,11 +286,11 @@ resource "aws_instance" "web" {
   }
 }
 ```
-This is a lot to explain! Long story short though, 
+This is a lot to explain! So I'll try my best to explain this as best as possible. 
+
+# 🧱 What This Terraform File Does
 
 ```bash
-🧱 What This Terraform File Does
-
 This Terraform file automates the creation of a simple, secure EC2 environment in AWS:
 
 Specifies AWS provider → Tells Terraform to use the AWS plugin (version 6.0 or newer) and the region defined in var.aws_region.
