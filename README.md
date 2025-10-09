@@ -2,7 +2,7 @@
 
 In this project, I am simply using **Terraform** to build an AWS EC2 instance and then dressing it up with **Ansible** all while running this through a **CI/CD** pipeline using **GitHub** actions.  
 
-The main reason for this project was to learn how to connect to an EC2 machine with Ansible and install an `httpd` server.  
+The main reason for this project was to learn how to connect to an EC2 machine at start up with Ansible and install an `httpd` server.  
 
 Sounds simple, right?  
 I thought the same... until I ran into all sorts of problems. 😅  
@@ -203,3 +203,74 @@ sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashi
 sudo yum -y install terraform
 ```
 
+# ☁️ Step 4 — Time to Build!
+
+Now you’re ready to:
+
+1. Move into your Terraform directory
+
+```bash
+cd terraform
+```
+
+## main.tf
+
+```bash
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 6.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+
+
+resource "aws_security_group" "allow_ports" {
+  name        = "allow_ports"
+  description = "Allow TLS inbound traffic and all outbound traffic"
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_ssh" {
+  security_group_id = aws_security_group.allow_ports.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = var.aws_ssh_port
+  ip_protocol       = "tcp"
+  to_port           = var.aws_ssh_port
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_http" {
+  security_group_id = aws_security_group.allow_ports.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = var.aws_http_port
+  ip_protocol       = "tcp"
+  to_port           = var.aws_http_port
+}
+
+resource "aws_vpc_security_group_egress_rule" "all_out" {
+  security_group_id = aws_security_group.allow_ports.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1"
+}
+
+resource "aws_key_pair" "my_key" {
+  key_name   = "deployer-key"
+  public_key = file(var.public_key)
+}
+
+resource "aws_instance" "web" {
+  ami                         = var.aws_ami # Amazon Linux 2
+  instance_type               = var.instance_type
+  key_name                    = aws_key_pair.my_key.key_name
+  associate_public_ip_address = true
+  vpc_security_group_ids      = [aws_security_group.allow_ports.id]
+
+  tags = {
+    Name = "Terraform-Ansible-AmazonLinux"
+  }
+}
+```
