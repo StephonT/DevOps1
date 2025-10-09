@@ -178,3 +178,27 @@ AWS Secret Access Key [None]: <Your Secret Key>
 Default region name [None]: us-east-1
 Default output format [None]: json
 ```
+
+This command stores your credentials in:
+
+~/.aws/credentials → your keys
+
+~/.aws/config → your default region and output format
+
+Terraform automatically reads from these files — no extra steps needed!
+
+💡 Pro tip: Your keys are stored locally for your user account only.
+If you ever rotate them, just rerun aws configure.
+
+# 🧱 Step 3 — Install Terraform
+Now that AWS is set up, install terraform so you can start building infrastructure.
+
+Download from the official Terraform site: [Install Terraform](https://developer.hashicorp.com/terraform/install)
+
+Again, I'm using Linux so the commands to install terraform are below:
+
+```bash
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
+sudo yum -y install terraform
+```
