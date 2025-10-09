@@ -1,4 +1,4 @@
-# 🚀 Terraform + Ansible: AWS EC2 Adventure
+# 🚀 Terraform + Ansible + Github Actions: AWS EC2 Adventure
 
 In this project, I am simply using **Terraform** to build an AWS EC2 instance and then dressing it up with **Ansible** all while running this through a **CI/CD** pipeline using **GitHub** actions.  
 
