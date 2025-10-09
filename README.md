@@ -1,31 +1,43 @@
-# 🚀 Terraform + Ansible + Github Actions: AWS EC2 Adventure
+# 🎯 Main Goal of This Project
 
-In this project, I am simply using **Terraform** to build an AWS EC2 instance and then dressing it up with **Ansible** all while running this through a **CI/CD** pipeline using **GitHub** actions.  
+The main goal of this project is to bring together **Terraform**, **Ansible**, and a **CI/CD** pipeline to demonstrate how modern infrastructure can be built, configured, and automated from end to end — with little to no manual intervention.
 
-The main reason for this project was to learn how to connect to an EC2 machine at start up with Ansible and install an `httpd` server.  
+In simple terms:
+
+Terraform builds it.
+Ansible configures it.
+CI/CD keeps it consistent and repeatable.  
 
 Sounds simple, right?  
 I thought the same... until I ran into all sorts of problems. 😅  
----
 
-## 💡 Why I Did This
-- To connect Terraform + Ansible in a real-world way.  
-- To learn how to provision an EC2 instance and then configure it automatically.  
-- To practice solving the *unexpected* issues that always come up when working with infrastructure.  
-- To have a reusable workflow that I can apply at work.  
+# 🧩 In Practice
 
-Despite the many failed attempts, I figured it out ✅  
-Now I can put this in my bag of experience **and** actually use it in production scenarios.  
+Terraform creates the EC2 instance and outputs its public IP.
 
----
+Ansible uses that IP to install and start httpd (Apache web server).
 
-## 📋 What This Project Covers
-1. Building an **EC2 instance** with Terraform.  
-2. Using Terraform outputs (like IPs, SSH keys) to feed into Ansible.  
-3. Running an **Ansible playbook** to install and start `httpd`.  
-4. Lessons learned the hard way (and documented so you don’t suffer like I did).  
+A CI/CD pipeline (via GitHub Actions, GitLab, or Bitbucket) automatically runs Terraform and Ansible each time new code is pushed, ensuring:
 
----
+Consistency between environments.
+
+Fast rollback when needed.
+
+Continuous learning for how real DevOps pipelines work.
+
+# 🚀 The Vision
+
+By the end of this project, the goal is to have a fully automated pipeline that:
+
+Builds cloud infrastructure on demand.
+
+Configures it automatically.
+
+Tests it continuously.
+
+Documents every step — from broken to fixed — to show real progress and growth.
+
+In short: this project is my lab for mastering Infrastructure as Code, Configuration Management, and Continuous Automation — the three pillars of modern DevOps.
 
 ## ⚙️ Tech Stack
 - [Terraform](https://www.terraform.io/) → For infrastructure provisioning.  
@@ -274,3 +286,39 @@ resource "aws_instance" "web" {
   }
 }
 ```
+This is a lot to explain! Long story short though, 
+
+```bash
+🧱 What This Terraform File Does
+
+This Terraform file automates the creation of a simple, secure EC2 environment in AWS:
+
+Specifies AWS provider → Tells Terraform to use the AWS plugin (version 6.0 or newer) and the region defined in var.aws_region.
+
+Creates a security group (allow_ports) → Controls network access:
+
+Allows SSH (port from var.aws_ssh_port).
+
+Allows HTTP (port from var.aws_http_port).
+
+Allows all outbound traffic so the instance can reach the internet.
+
+Creates an SSH key pair (deployer-key) → Uses your local public key (from var.public_key) so you can securely connect to the instance.
+
+Launches an EC2 instance (web) → Based on the AMI and instance type you define in variables, attaches the security group, and tags it as Terraform-Ansible-AmazonLinux.
+
+In short:
+
+This file builds a ready-to-use EC2 instance with open SSH and HTTP access, a configured key pair for login, and all the networking rules Ansible needs to connect and configure the server.
+```
+
+
+# 🧠 What I Wanted to Learn
+
+How to provision infrastructure automatically in AWS using Terraform.
+
+How to use Ansible right after Terraform to configure a freshly built EC2 instance.
+
+How to integrate everything into a CI/CD workflow, so changes to infrastructure or playbooks trigger automated builds and deployments.
+
+How to debug and document real-world issues that come up when connecting Terraform → Ansible → AWS.
