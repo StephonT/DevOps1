@@ -312,6 +312,116 @@ In short:
 This file builds a ready-to-use EC2 instance with open SSH and HTTP access, a configured key pair for login, and all the networking rules Ansible needs to connect and configure the server.
 ```
 
+## workflows/deploy.yml
+```bash
+name: Deploy Infrastructure and Configure with ansible
+
+on:
+  push:
+    branches:
+      - main
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest #GitHub will use the Ubuntu runner to check code
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Write public key file
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PUBLIC_KEY }}" > ~/.ssh/id_ed25519.pub
+          chmod 644 ~/.ssh/id_ed25519.pub
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init and apply
+        working-directory: terraform
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          terraform init
+          terraform apply -auto-approve
+          terraform output -raw public_ip > ../ansible/inventory
+
+      - name: Setup SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deployer-key.pem
+          chmod 600 ~/.ssh/deployer-key.pem
+
+      - name: Install ansible
+        run: |
+          sudo apt install -y ansible-core 
+
+      - name: Run ansible playbook
+        working-directory: ansible
+        run: |
+          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory -u ec2-user --private-key ~/.ssh/deployer-key.pem site.yml
+
+
+
+```
+# ⚙️ CI/CD Automation (GitHub Actions)
+
+Trigger: On every push to main, GitHub Actions builds infra with Terraform and then configures it with Ansible—hands-free.
+
+What the workflow does, step by step:
+
+Checkout code
+
+Pulls your repo so the runner has your Terraform and Ansible files.
+
+Write public key file
+
+Creates ~/.ssh/id_ed25519.pub from SSH_PUBLIC_KEY (stored in repo Secrets).
+
+Terraform uses this key to make an AWS key pair for the EC2 instance.
+
+Setup Terraform
+
+Installs the correct Terraform version on the runner.
+
+Terraform init & apply
+
+Uses AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY from Secrets to authenticate to AWS.
+
+Runs terraform init and terraform apply -auto-approve.
+
+Exports the instance’s public IP into ansible/inventory:
+
+terraform output -raw public_ip > ../ansible/inventory
+
+
+(That’s why your inventory file can be empty in git—CI fills it in.)
+
+Setup SSH private key
+
+Writes ~/.ssh/deployer-key.pem from SSH_PRIVATE_KEY (also a Secret).
+
+This is the key Ansible uses to SSH into the new EC2.
+
+Install Ansible
+
+Installs ansible-core on the runner.
+
+Run Ansible playbook
+
+Executes:
+```bash
+ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
+  -i inventory -u ec2-user \
+  --private-key ~/.ssh/deployer-key.pem site.yml
+```
+
+Disables host key checking (useful for fresh EC2), logs in as ec2-user, and configures the box (installs/starts httpd, etc.).
+
+In one line:
+Push to main → Terraform builds EC2 → IP gets dropped into ansible/inventory → Ansible SSHs in and configures it. 🚀
 
 # 🧠 What I Wanted to Learn
 
