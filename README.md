@@ -423,12 +423,82 @@ Disables host key checking (useful for fresh EC2), logs in as ec2-user, and conf
 In one line:
 Push to main → Terraform builds EC2 → IP gets dropped into ansible/inventory → Ansible SSHs in and configures it. 🚀
 
-# 🧠 What I Wanted to Learn
+# 🚀 Launching the CI/CD Job
 
-How to provision infrastructure automatically in AWS using Terraform.
+The beauty of this setup is that you don’t need to manually run Terraform or Ansible anymore — GitHub Actions does it all for you.
 
-How to use Ansible right after Terraform to configure a freshly built EC2 instance.
+Here’s how to launch the workflow from start to finish 👇
 
-How to integrate everything into a CI/CD workflow, so changes to infrastructure or playbooks trigger automated builds and deployments.
+# 🧩 1. Push Your Code to GitHub
 
-How to debug and document real-world issues that come up when connecting Terraform → Ansible → AWS.
+The workflow is triggered every time you push to the main branch.
+So all you have to do is:
+
+```bash
+git add .
+git commit -m "deploy new infrastructure"
+git push origin main
+```
+
+
+Once you push, GitHub Actions automatically:
+
+Spins up a fresh Ubuntu runner
+
+Sets up Terraform
+
+Builds your AWS EC2 instance
+
+Generates the Ansible inventory file
+
+SSHs into the new instance
+
+Runs your Ansible playbook to install and configure httpd
+
+No manual commands. No local dependencies. Just a clean, automated build pipeline every time.
+
+# 🔐 2. Very Important
+
+Before you push for the first time, confirm your repo has the following secrets configured under
+Settings → Secrets and variables → Actions → Repository secrets in Github:
+
+Secret Name	Purpose
+AWS_ACCESS_KEY_ID	AWS access key for Terraform
+AWS_SECRET_ACCESS_KEY	AWS secret key for Terraform
+SSH_PUBLIC_KEY	Public key that Terraform uploads to AWS
+SSH_PRIVATE_KEY	Private key used by Ansible to SSH into EC2
+
+These secrets allow your workflow to authenticate securely without ever exposing credentials in your code.
+
+# 🧠 3. Watch the Workflow Run
+
+Go to your repo on GitHub.
+
+Click the Actions tab at the top.
+
+You’ll see your workflow:
+“Deploy Infrastructure and Configure with Ansible”
+
+Click it to view logs in real time — you’ll see Terraform apply, Ansible install packages, and httpd start up.
+
+✅ If everything succeeds, you’ll have a brand-new EC2 instance running Apache, ready to serve web traffic!
+
+# 🏁 Closing Thoughts
+
+This project started as a simple idea — “use Terraform to build, and Ansible to configure.”
+But it quickly evolved into a full DevOps pipeline that ties together Infrastructure as Code, Configuration Management, and Continuous Deployment — all running automatically through GitHub Actions.
+
+Every failed attempt, error message, and retry became a valuable learning moment.
+Now, the entire workflow — from provisioning an EC2 instance to installing and testing a web server — runs in one seamless push.
+
+This project represents not just automation, but growth — learning how to build smarter, fail forward, and make complex things simple.
+
+# 💬 Questions, Feedback, or Collaboration?
+
+If you have any questions, run into an issue, or just want to talk shop about Terraform, Ansible, or automation in general —
+I’d love to connect!
+
+# 📩 Connect with me on LinkedIn
+
+Let’s share ideas and keep learning from each other.
+- [LinkedIn](https://www.linkedin.com/in/stephon-treadwell/) → Connect with me here! 
